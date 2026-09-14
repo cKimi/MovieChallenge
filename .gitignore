@@ -1,0 +1,37 @@
+# Xcode
+#
+# User-specific Xcode settings
+xcuserdata/
+
+# Xcode user state
+*.xcuserstate
+
+# Build products
+build/
+DerivedData/
+
+# Xcode generated files
+*.moved-aside
+
+# Swift Package Manager
+#
+.build/
+.swiftpm/
+
+# macOS
+.DS_Store
+
+# Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# App packaging
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
