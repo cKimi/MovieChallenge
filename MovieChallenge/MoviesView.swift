@@ -19,6 +19,24 @@ final class MoviesView: UIView {
         return label
     }()
     
+    var moviesCollectionView: UICollectionView {
+        collectionView
+    }
+    
+    private let collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 16
+        layout.minimumInteritemSpacing = 12
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .clear
+        
+        return collectionView
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -33,11 +51,17 @@ final class MoviesView: UIView {
         backgroundColor = .systemBackground
         
         addSubview(titleLabel)
+        addSubview(collectionView)
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 24),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -16)
+            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -16),
+            
+            collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
+            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            collectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 }
