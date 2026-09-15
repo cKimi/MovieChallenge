@@ -10,19 +10,21 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    private var appCoordinator: AppCoordinator?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = scene as? UIWindowScene else { return }
         
-        let viewModel = MoviesViewModel()
-        
-        let viewController = MoviesViewController(viewModel: viewModel)
-        let navigationController = UINavigationController(rootViewController: viewController)
+        let navigationController = UINavigationController()
+        let appCoordinator = AppCoordinator(navigationController: navigationController)
         let window = UIWindow(windowScene: windowScene)
         
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         
         self.window = window
+        self.appCoordinator = appCoordinator
+        
+        appCoordinator.start() 
     }
 }
