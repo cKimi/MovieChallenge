@@ -7,9 +7,12 @@
 
 import UIKit
 
+@MainActor
 final class MovieCell: UICollectionViewCell {
     
     static let reuseIdentifier = "MovieCell"
+    
+    private var imageTask: Task<Void, Never>?
     
     private var posterImageView: UIImageView = {
         let imageView = UIImageView()
@@ -47,9 +50,41 @@ final class MovieCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(title: String, rating: String) {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        imageTask?.cancel()
+        imageTask = nil
+        
+        posterImageView.image = nil
+        titleLabel.text = nil
+        ratingLabel.text = nil
+    }
+    
+    func configure(title: String, rating: String, posterPath: String?) {
         titleLabel.text = title
         ratingLabel.text = rating
+        
+        posterImageView.image = nil
+        
+        imageTask?.cancel()
+        
+        guard let posterPath else { return }
+        
+        let urlString = "https://image.tmdb.org/t/p/w500\(posterPath)"
+        guard let url = URL(string: urlString) else { return }
+        
+        imageTask = Task { [weak self] in
+            do {
+                let image = try await ImageLoader.shared.loadImage(from: url)
+                
+                guard !Task.isCancelled else { return }
+                self?.posterImageView.image = image
+            } catch {
+                guard !Task.isCancelled else { return }
+                print("Failed to load poster: \(error)")
+            }
+        }
     }
     
     private func setupView() {
