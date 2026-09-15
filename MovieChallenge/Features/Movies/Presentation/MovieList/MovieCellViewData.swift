@@ -10,4 +10,5 @@ import Foundation
 struct MovieCellViewData {
     let title: String
     let rating: String
+    let posterPath: String?
 }

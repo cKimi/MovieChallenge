@@ -94,7 +94,7 @@ extension MoviesViewController: UICollectionViewDataSource {
         }
         
         let item = viewModel.item(at: indexPath.item)
-        cell.configure(title: item.title, rating: item.rating)
+        cell.configure(title: item.title, rating: item.rating, posterPath: item.posterPath)
         
         return cell
     }

@@ -31,7 +31,7 @@ final class MoviesViewModel {
     
     func item(at index: Int) -> MovieCellViewData {
         let movie = movies[index]
-        return MovieCellViewData(title: movie.title, rating: "★ \(movie.rating)")
+        return MovieCellViewData(title: movie.title, rating: String(format: "★ %.1f", movie.rating), posterPath: movie.posterPath)
     }
     
     func movie(at index: Int) -> Movie {
