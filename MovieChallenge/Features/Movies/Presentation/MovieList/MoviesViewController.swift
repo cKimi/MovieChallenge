@@ -10,6 +10,7 @@ import UIKit
 final class MoviesViewController: UIViewController {
     
     private let viewModel: MoviesViewModel
+    var onMovieSelected: ((Movie) -> Void)?
     
     init(viewModel: MoviesViewModel) {
         self.viewModel = viewModel
@@ -73,5 +74,10 @@ extension MoviesViewController: UICollectionViewDelegateFlowLayout {
         let width = (collectionView.bounds.width - totalSpacing) / 2
         
         return CGSize(width: width, height: width * 1.8)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let movie = viewModel.movie(at: indexPath.item)
+        onMovieSelected?(movie)
     }
 }

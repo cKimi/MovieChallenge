@@ -23,6 +23,17 @@ final class AppCoordinator: Coordinator {
         let viewModel = MoviesViewModel()
         let viewController = MoviesViewController(viewModel: viewModel)
         
+        viewController.onMovieSelected = { [weak self] movie in
+            self?.showMovieDetails(movie)
+        }
+        
         navigationController.setViewControllers([viewController], animated: false)
+    }
+    
+    private func showMovieDetails(_ movie: Movie) {
+        let viewModel = MovieDetailsViewModel(movie: movie)
+        let viewController = MovieDetailsViewController(viewModel: viewModel)
+        
+        navigationController.pushViewController(viewController, animated: true)
     }
 }

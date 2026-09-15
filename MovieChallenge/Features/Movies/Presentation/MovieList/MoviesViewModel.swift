@@ -26,4 +26,8 @@ final class MoviesViewModel {
         let movie = movies[index]
         return MovieCellViewData(title: movie.title, rating: "★ \(movie.rating)")
     }
+    
+    func movie(at index: Int) -> Movie {
+        movies[index]
+    }
 }
