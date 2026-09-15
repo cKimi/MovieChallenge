@@ -37,6 +37,13 @@ final class MoviesView: UIView {
         return collectionView
     }()
     
+    private let loadingIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.hidesWhenStopped = true
+        return indicator
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -52,6 +59,7 @@ final class MoviesView: UIView {
         
         addSubview(titleLabel)
         addSubview(collectionView)
+        addSubview(loadingIndicator)
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 24),
@@ -61,7 +69,20 @@ final class MoviesView: UIView {
             collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            collectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+            collectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            
+            loadingIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
+            loadingIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
+    }
+    
+    func setLoading(_ isLoading: Bool) {
+        if isLoading {
+            loadingIndicator.startAnimating()
+            moviesCollectionView.isHidden = true
+        } else {
+            loadingIndicator.stopAnimating()
+            moviesCollectionView.isHidden = false
+        }
     }
 }

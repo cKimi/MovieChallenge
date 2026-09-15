@@ -7,6 +7,7 @@
 
 import UIKit
 
+@MainActor
 final class MoviesViewController: UIViewController {
     
     private let viewModel: MoviesViewModel
@@ -40,6 +41,8 @@ final class MoviesViewController: UIViewController {
         title = "Movies"
         
         setupCollectionView()
+        bindViewModel()
+        loadMovies()
     }
     
     private func setupCollectionView() {
@@ -47,6 +50,36 @@ final class MoviesViewController: UIViewController {
         contentView.moviesCollectionView.delegate = self
         
         contentView.moviesCollectionView.register(MovieCell.self, forCellWithReuseIdentifier: MovieCell.reuseIdentifier)
+    }
+    
+    private func bindViewModel() {
+        viewModel.onStateChanged = { [weak self] state in
+            self?.render(state)
+        }
+    }
+    
+    private func loadMovies() {
+        Task {
+            await viewModel.loadMovies()
+        }
+    }
+    
+    private func render(_ state: MoviesViewState) {
+        switch state {
+        case .idle:
+            contentView.setLoading(false)
+            
+        case .loading:
+            contentView.setLoading(true)
+            
+        case .loaded:
+            contentView.setLoading(false)
+            contentView.moviesCollectionView.reloadData()
+            
+        case .error(let message):
+            contentView.setLoading(false)
+            print("Error: \(message)")
+        }
     }
 }
 
