@@ -1,17 +1,17 @@
 //
-//  Movie.swift
+//  MovieDTO.swift
 //  MovieChallenge
 //
-//  Created by Carlos Kimura on 14/09/26.
+//  Created by Carlos Kimura on 15/09/26.
 //
 
 import Foundation
 
-struct Movie {
+struct MovieDTO: Decodable {
     let id: Int
     let title: String
     let overview: String
     let posterPath: String?
-    let rating: Double
+    let voteAverage: Double
     let releaseDate: String?
 }

@@ -20,7 +20,10 @@ final class AppCoordinator: Coordinator {
     }
     
     private func showMovies() {
-        let viewModel = MoviesViewModel()
+        let remoteDataSource = MoviesRemoteDataSource()
+        let repository = MoviesRepositoryImpl(remoteDataSource: remoteDataSource)
+        
+        let viewModel = MoviesViewModel(repository: repository)
         let viewController = MoviesViewController(viewModel: viewModel)
         
         viewController.onMovieSelected = { [weak self] movie in
