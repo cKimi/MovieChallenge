@@ -10,9 +10,11 @@ import UIKit
 final class MovieDetailsViewController: UIViewController {
     
     private let viewModel: MovieDetailsViewModel
+    private let imageLoader: ImageLoader
     
-    init(viewModel: MovieDetailsViewModel) {
+    init(viewModel: MovieDetailsViewModel, imageLoader: ImageLoader) {
         self.viewModel = viewModel
+        self.imageLoader = imageLoader
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -36,9 +38,26 @@ final class MovieDetailsViewController: UIViewController {
         super.viewDidLoad()
         
         setupView()
+        loadPoster()
     }
     
     private func setupView() {
         contentView.configure(title: viewModel.title, rating: viewModel.rating)
+    }
+    
+    private func loadPoster() {
+        guard let url = viewModel.posterURL else { return }
+        
+        Task { [weak self] in
+            guard let self else { return }
+            
+            do {
+                let image = try await imageLoader.loadImage(from: url)
+                guard !Task.isCancelled else { return }
+                contentView.setPosterImage(image)
+            } catch {
+                print("Failed to load poster: \(error)")
+            }
+        }
     }
 }
