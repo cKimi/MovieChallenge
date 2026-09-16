@@ -35,7 +35,8 @@ final class AppCoordinator: Coordinator {
     
     private func showMovieDetails(_ movie: Movie) {
         let viewModel = MovieDetailsViewModel(movie: movie)
-        let viewController = MovieDetailsViewController(viewModel: viewModel)
+        let imageLoader = ImageLoader.shared
+        let viewController = MovieDetailsViewController(viewModel: viewModel, imageLoader: imageLoader)
         
         navigationController.pushViewController(viewController, animated: true)
     }
