@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum MoviesViewState {
+enum MoviesViewState: Equatable {
     case idle
     case loading
     case loaded
