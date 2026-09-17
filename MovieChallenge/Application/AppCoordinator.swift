@@ -20,7 +20,7 @@ final class AppCoordinator: Coordinator {
     }
     
     private func showMovies() {
-        let remoteDataSource = MoviesRemoteDataSource()
+        let remoteDataSource = MoviesRemoteDataSource(httpClient: URLSession.shared)
         let repository = MoviesRepositoryImpl(remoteDataSource: remoteDataSource)
         
         let viewModel = MoviesViewModel(repository: repository)

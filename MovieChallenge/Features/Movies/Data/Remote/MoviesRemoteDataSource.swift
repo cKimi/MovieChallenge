@@ -9,6 +9,12 @@ import Foundation
 
 final class MoviesRemoteDataSource: MoviesRemoteDataSourceProtocol {
     
+    private let httpClient: HTTPClient
+    
+    init(httpClient: HTTPClient) {
+        self.httpClient = httpClient
+    }
+    
     func fetchPopularMovies() async throws -> [MovieDTO] {
         guard let url = URL(
             string: "https://api.themoviedb.org/3/movie/popular"
@@ -28,7 +34,7 @@ final class MoviesRemoteDataSource: MoviesRemoteDataSourceProtocol {
         request.setValue("application/json", forHTTPHeaderField: "Accept")
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
-        let (data, response) = try await URLSession.shared.data(for: request)
+        let (data, response) = try await httpClient.data(for: request)
         
         guard let httpResponse = response as? HTTPURLResponse else {
             throw URLError(.badServerResponse)
